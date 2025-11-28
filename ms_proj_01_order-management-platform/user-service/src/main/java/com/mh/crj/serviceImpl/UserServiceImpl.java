@@ -85,4 +85,12 @@ public class UserServiceImpl implements UserService {
 		return byId;
 	}
 	
+	@Override
+	public void deleteUser(Integer id) {
+		
+		User user = userRepo.findById(id).orElseThrow(()-> new UserNotFoundException("User is not abailable in DB with id :"+id));
+		userRepo.delete(user);
+
+	}
+	
 }

@@ -18,4 +18,6 @@ public interface UserService {
 
 	public User updateUser(UserRegisterDto registerDto);
 
+	public void deleteUser(Integer id);
+
 }

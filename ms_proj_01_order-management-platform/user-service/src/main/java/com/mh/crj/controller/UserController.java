@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,7 +53,7 @@ public class UserController {
 	public ResponseEntity<ResponseMessage> updateUser(@RequestBody @Valid UserRegisterDto registerDto) {
 
 		User updateUser = userService.updateUser(registerDto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"User save successfully",updateUser));
+		return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"User update successfully",updateUser));
 	}
 	
 	@GetMapping("/getAll")
@@ -73,6 +74,13 @@ public class UserController {
 	@GetMapping("/getById/{id}")
 	public ResponseEntity<ResponseMessage> loginUser(@PathVariable Integer id) {
 		User userById = userService.getUserById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User fetch successfully",userById));
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User login successfully",userById));
 	}
+	
+	@DeleteMapping("/deleteUser/{id}")
+	public ResponseEntity<ResponseMessage> deleteUser(@PathVariable Integer id) {
+		userService.deleteUser(id);
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User delete successfully"));
+	}
+	
 }
