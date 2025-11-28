@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,8 @@ import com.mh.crj.service.UserService;
 import com.mh.crj.utility.Constants;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -58,5 +61,9 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User fetch successfully",checkLogin));
 	}
 	
-	
+	@GetMapping("/getById/{id}")
+	public ResponseEntity<ResponseMessage> loginUser(@PathVariable Integer id) {
+		User userById = userService.getUserById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User fetch successfully",userById));
+	}
 }

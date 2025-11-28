@@ -2,6 +2,7 @@ package com.mh.crj.serviceImpl;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import com.mh.crj.entity.User;
 import com.mh.crj.exception.DuplicateEmailException;
 import com.mh.crj.exception.InternalServerException;
 import com.mh.crj.exception.InvalidEmailPasswordException;
-import com.mh.crj.exception.UsernameNotFoundException;
+import com.mh.crj.exception.UserNotFoundException;
 import com.mh.crj.model.UserLoginDto;
 import com.mh.crj.model.UserRegisterDto;
 import com.mh.crj.repository.UserRepo;
@@ -54,7 +55,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User checkLogin(UserLoginDto loginDto) {
 			
-		User byEmail = userRepo.findByEmail(loginDto.getEmail()).orElseThrow(()-> new UsernameNotFoundException("Invalid Email and User"));
+		User byEmail = userRepo.findByEmail(loginDto.getEmail()).orElseThrow(()-> new UserNotFoundException("Invalid Email and User"));
 		System.out.println(byEmail);
 
 		if(!byEmail.getPassword().equals(Base64.getEncoder().encodeToString(loginDto.getPassword().getBytes()))) {
@@ -63,6 +64,13 @@ public class UserServiceImpl implements UserService {
 		byEmail.setPassword(new String(Base64.getDecoder().decode(byEmail.getPassword())));
 		
 		return byEmail; 
+	}
+	
+	
+	@Override
+	public User getUserById(Integer id) {
+		User byId = userRepo.findById(id).orElseThrow(()->new UserNotFoundException("User is not availabe with id :"+id));
+		return byId;
 	}
 	
 }

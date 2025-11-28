@@ -38,8 +38,8 @@ public class GlobleExceptionHandler {
 		return ResponseEntity.ok(errorResponseMessage);
 	}
 	
-	@ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<Object> handleDuplicateKey(UsernameNotFoundException ex) {
+	@ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleDuplicateKey(UserNotFoundException ex) {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("Error Details", "User not exists! or incorrect email");
 		hm.put("Error Messae", ex.getLocalizedMessage());

@@ -14,5 +14,7 @@ public interface UserService {
 
 	public User checkLogin(UserLoginDto loginDto);
 
+	public User getUserById(Integer id);
+
 	
 }
