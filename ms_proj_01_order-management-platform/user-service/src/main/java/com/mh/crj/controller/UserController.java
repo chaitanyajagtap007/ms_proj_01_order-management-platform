@@ -53,7 +53,7 @@ public class UserController {
 	public ResponseEntity<ResponseMessage> updateUser(@RequestBody @Valid UserRegisterDto registerDto) {
 
 		User updateUser = userService.updateUser(registerDto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"User update successfully",updateUser));
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User update successfully",updateUser));
 	}
 	
 	@GetMapping("/getAll")
