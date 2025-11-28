@@ -22,6 +22,8 @@ import com.mh.crj.utility.Constants;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -44,6 +46,13 @@ public class UserController {
 		User savedtUser = userService.insertUser(registerDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"User save successfully",savedtUser));
 	
+	}
+	
+	@PutMapping("update")
+	public ResponseEntity<ResponseMessage> updateUser(@RequestBody @Valid UserRegisterDto registerDto) {
+
+		User updateUser = userService.updateUser(registerDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"User save successfully",updateUser));
 	}
 	
 	@GetMapping("/getAll")

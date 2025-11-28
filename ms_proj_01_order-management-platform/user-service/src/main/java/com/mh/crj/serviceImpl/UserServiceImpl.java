@@ -47,6 +47,18 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Override
+	public User updateUser(UserRegisterDto registerDto) {
+		User user = userRepo.findByEmail(registerDto.getEmail()).orElseThrow(()-> new UserNotFoundException("User is not found in DB with email :"+registerDto.getEmail()));
+		
+		user.setFirstName(registerDto.getFirstName());
+		user.setLastName(registerDto.getLastName());
+		user.setMobile(registerDto.getMobile());
+		User save = userRepo.save(user);
+		return save;
+	}
+	
+	
+	@Override
 	public List<User> fetchAllUser() {
 		List<User> all = userRepo.findAll();
 		return all;

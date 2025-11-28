@@ -16,5 +16,6 @@ public interface UserService {
 
 	public User getUserById(Integer id);
 
-	
+	public User updateUser(UserRegisterDto registerDto);
+
 }
