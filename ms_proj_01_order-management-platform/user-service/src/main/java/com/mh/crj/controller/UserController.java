@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,6 @@ import com.mh.crj.service.UserService;
 import com.mh.crj.utility.Constants;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:5174")
 public class UserController {
 
 	@Autowired
@@ -56,13 +57,6 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User update successfully",updateUser));
 	}
 	
-	@GetMapping("/getAll")
-	public ResponseEntity<ResponseMessage> getAllUser() {
-
-		List<User> allUser = userService.fetchAllUser();
-		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User fetch successfully",allUser));
-		
-	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<ResponseMessage> loginUser(@RequestBody UserLoginDto loginDto) {
@@ -76,6 +70,16 @@ public class UserController {
 		User userById = userService.getUserById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User login successfully",userById));
 	}
+	
+
+	@GetMapping("/getAll")
+	public ResponseEntity<ResponseMessage> getAllUser() {
+
+		List<User> allUser = userService.fetchAllUser();
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User fetch successfully",allUser));
+		
+	}
+	
 	
 	@DeleteMapping("/deleteUser/{id}")
 	public ResponseEntity<ResponseMessage> deleteUser(@PathVariable Integer id) {
