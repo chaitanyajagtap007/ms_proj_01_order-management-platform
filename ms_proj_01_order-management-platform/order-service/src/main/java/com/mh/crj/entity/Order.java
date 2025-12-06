@@ -2,6 +2,7 @@ package com.mh.crj.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,24 +30,32 @@ public class Order {
     private Integer userId;      // from user-service
     private Integer productId;   // from product-service
 
+	@Column(nullable = false)
     private Integer quantity;
+	
+
+	@Column(nullable = false)
     private Double totalAmount;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
+    @Column(nullable = false,updatable = false)
+	private LocalDateTime createdDate;
+	
+	@Column(nullable = false)
+	private LocalDateTime updatedDate;
+	
     @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
+    public void prePersist() {
+        this.createdDate = LocalDateTime.now();
+        this.updatedDate = LocalDateTime.now();
         status = OrderStatus.CREATED;
     }
 
     @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
+    public void preUpdate() {
+        this.updatedDate = LocalDateTime.now();
     }
+    
 }

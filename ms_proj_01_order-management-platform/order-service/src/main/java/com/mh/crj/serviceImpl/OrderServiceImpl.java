@@ -25,8 +25,8 @@ public class OrderServiceImpl implements OrderService{
 	                .status(OrderStatus.CREATED)
 	                .build();
 		 
-		Order save = orderRepository.save(order);
-		return save;
+		Order createdOrder = orderRepository.save(order);
+		return createdOrder;
 	}
 
 }
