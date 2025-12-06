@@ -39,7 +39,7 @@ public class UserController {
 	
 	@GetMapping("/home")
 	public String getMessage() {
-		return "Hi let's Start Course Project";
+		return "Hi let's Start Course Project this is user page";
 	}
 	
 	@PostMapping("/add")
