@@ -1,5 +1,10 @@
 package com.mh.crj.service;
 
-public class OrderService {
+import com.mh.crj.entity.Order;
+import com.mh.crj.model.OrderRequestDto;
+
+public interface OrderService {
+	
+	public Order createOrder(OrderRequestDto orderRequestDto);
 
 }
