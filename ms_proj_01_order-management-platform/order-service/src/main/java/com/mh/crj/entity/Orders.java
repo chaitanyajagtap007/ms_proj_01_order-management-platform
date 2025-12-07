@@ -54,8 +54,6 @@ public class Orders {
     public void prePersist() {
         this.createdDate = LocalDateTime.now();
         this.updatedDate = LocalDateTime.now();
-
-        status = OrderStatus.CREATED;
     }
 
     @PreUpdate

@@ -26,14 +26,14 @@ public class GlobleExceptionHandler {
 		return ResponseEntity.ok(errorResponseMessage);
 	}
 	
-	@ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<Object> handleDuplicateKey(DuplicateEmailException ex) {
+	@ExceptionHandler(DuplicateOrderException.class)
+    public ResponseEntity<Object> handleDuplicateKey(DuplicateOrderException ex) {
 		HashMap<String, String> hm = new HashMap<>();
-		hm.put("Error Details", "Email already exists!");
+		hm.put("Error Details", "Order already exists!");
 		hm.put("Error Messae", ex.getLocalizedMessage());
 		hm.put("TimeStamp",System.currentTimeMillis()+"");
 		
-		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"email is already present in DB",hm);
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Order is already present in DB",hm);
 		
 		return ResponseEntity.ok(errorResponseMessage);
 	}
@@ -45,7 +45,7 @@ public class GlobleExceptionHandler {
 		hm.put("Error Messae", ex.getLocalizedMessage());
 		hm.put("TimeStamp",System.currentTimeMillis()+"");
 		
-		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"User is not available in DB",hm);
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Order is not available in DB",hm);
 		
 		return ResponseEntity.ok(errorResponseMessage);
 	}
