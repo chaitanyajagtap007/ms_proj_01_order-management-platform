@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.mh.crj.entity.OrderStatus;
 import com.mh.crj.entity.Orders;
+import com.mh.crj.exception.OrderNotFoundException;
 import com.mh.crj.model.OrderRequestDto;
 import com.mh.crj.repository.OrderRepo;
 import com.mh.crj.service.OrderService;
@@ -28,6 +29,12 @@ public class OrderServiceImpl implements OrderService{
 		
 		Orders createdOrder = orderRepo.save(order);
 		return createdOrder;
+	}
+	
+	@Override
+	public Orders getOrder(Integer id) {
+		Orders order = orderRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Ordes is not available with id "+id));
+		return order;
 	}
 	
 }

@@ -27,12 +27,16 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(nullable = false)
 	private Integer userId;
 	
+	@Column(nullable = false)
 	private Integer productId;
 	
-
+	@Column(nullable = false)
     private Integer quantity;
+
+	@Column(nullable = false)
     private Double totalAmount;
 
     @Enumerated(EnumType.STRING)
