@@ -6,11 +6,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mh.crj.client.UserServiceClient;
 import com.mh.crj.entity.OrderStatus;
 import com.mh.crj.entity.Orders;
 import com.mh.crj.exception.DuplicateOrderException;
 import com.mh.crj.exception.OrderNotFoundException;
+import com.mh.crj.exception.UserNotFoundException;
 import com.mh.crj.model.OrderRequestDto;
+import com.mh.crj.model.ResponseMessage;
 import com.mh.crj.repository.OrderRepo;
 import com.mh.crj.service.OrderService;
 
@@ -20,9 +23,21 @@ public class OrderServiceImpl implements OrderService{
 	@Autowired
 	private OrderRepo orderRepo;
 	
+	@Autowired
+	private UserServiceClient userServiceClient;
+	
 	@Override
 	public Orders createOrder(OrderRequestDto orderRequestDto) {
 
+		ResponseMessage userResponse = userServiceClient.getUser(orderRequestDto.getUserId());
+		
+		if(userResponse.getData()==null) {
+			throw new UserNotFoundException("User is not exists with id: "+orderRequestDto.getUserId());
+		}
+		
+		System.err.println(userResponse);
+		System.out.println(userResponse.getData());
+		
 		Optional<Orders> checkOrders = orderRepo.findByUserIdAndProductIdAndStatus(orderRequestDto.getUserId(), orderRequestDto.getProductId(),OrderStatus.CREATED);
 		
 		

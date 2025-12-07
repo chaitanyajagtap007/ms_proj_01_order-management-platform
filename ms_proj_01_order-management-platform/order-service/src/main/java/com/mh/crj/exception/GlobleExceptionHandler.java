@@ -38,6 +38,18 @@ public class GlobleExceptionHandler {
 		return ResponseEntity.ok(errorResponseMessage);
 	}
 	
+	@ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleDuplicateKey(UserNotFoundException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "User not exists! or incorrect email");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"User is not available in DB",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
 	@ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleDuplicateKey(OrderNotFoundException ex) {
 		HashMap<String, String> hm = new HashMap<>();
