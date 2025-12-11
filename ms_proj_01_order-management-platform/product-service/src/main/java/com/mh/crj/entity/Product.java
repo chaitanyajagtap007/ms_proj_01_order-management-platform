@@ -2,10 +2,14 @@ package com.mh.crj.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,13 +17,33 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Product {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "name", length = 50)
+	@Column(nullable = false, length = 50)
 	private String name;
+	
+
+    @Column(nullable = false)
+    private Double price;
+
+    @Column(nullable = false)
+    private Integer stock;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
+
+    @PrePersist
+    public void initStatus() {
+        if (stock > 0) {
+            status = ProductStatus.ACTIVE;
+        } else {
+            status = ProductStatus.OUT_OF_STOCK;
+        }
+    }
 
 }
