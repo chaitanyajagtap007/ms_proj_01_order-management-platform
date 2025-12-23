@@ -1,5 +1,7 @@
 package com.mh.crj.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,12 @@ public class ProductServiceImpl implements ProductService {
 		Product savedProduct = productRepo.save(product);
 		System.out.println(product);
 		return savedProduct;
+	}
+
+	@Override
+	public List<Product> getAllProduct() {
+		List<Product> allProduct = productRepo.findAll();
+		return allProduct;
 	}
 	 
 }

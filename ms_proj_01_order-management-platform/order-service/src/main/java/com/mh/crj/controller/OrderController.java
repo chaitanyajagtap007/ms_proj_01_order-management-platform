@@ -48,8 +48,8 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"Order get successfully",order));
 	}
 	
-	@GetMapping("/all")
-	public ResponseEntity<ResponseMessage> postMethodName() {
+	@GetMapping("/get-all")
+	public ResponseEntity<ResponseMessage> getAllOrders() {
 		List<Orders> allOrders = orderService.getAllOrders();
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"All Order get successfully",allOrders));
 	}

@@ -1,10 +1,12 @@
 package com.mh.crj.controller;
 
 import java.net.HttpURLConnection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +26,16 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody ProductRequestDto productRequestDto) {
+    public ResponseEntity<ResponseMessage> create(@RequestBody ProductRequestDto productRequestDto) {
     	Product product = productService.createProduct(productRequestDto);
-    	return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"Order created successfully",product));
-	  }
+    	return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"Product created successfully",product));
+	}
 	
+    @GetMapping("/get-all")
+	public ResponseEntity<ResponseMessage> getAllOrders() {
+		List<Product> allProduct= productService.getAllProduct();
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"All Product get successfully",allProduct));
+	}
+    
+    
 }
