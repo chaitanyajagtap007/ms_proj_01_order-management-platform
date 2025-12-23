@@ -46,18 +46,16 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public Product updateStock(Integer id, Integer stock) {
+	public Product updateStock(Integer id, Integer newStock) {
 		
 		Product product = productRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Product is not available with id "+id));
-		Integer stockCount = product.getStock();
-		if(stockCount==0) {
-			product.setStock(stock);
-		}else {
-			product.setStock(stockCount+stock);
-		}
+		product.setStatus(newStock > 0 ? ProductStatus.ACTIVE : ProductStatus.OUT_OF_STOCK);
+		
+		product.setStock(newStock);		
 		
 		Product updateStock = productRepo.save(product);
 		return updateStock;
+		
 	}
 	 
 	
@@ -68,7 +66,6 @@ public class ProductServiceImpl implements ProductService {
 		product.setPrice(price);
 		
 		Product updatePrice = productRepo.save(product);
-		
 		
 		return updatePrice;
 	}

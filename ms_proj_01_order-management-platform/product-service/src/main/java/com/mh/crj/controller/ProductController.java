@@ -35,7 +35,7 @@ public class ProductController {
 	}
     
     @GetMapping("/get/{id}")
-	public ResponseEntity<ResponseMessage>  getProduct(@PathVariable Integer id) {
+	public ResponseEntity<ResponseMessage>  getOneProduct(@PathVariable Integer id) {
     	Product product = productService.getProduct(id);
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"Product get successfully",product));
 	}
