@@ -11,4 +11,10 @@ public interface ProductService {
 
 	public List<Product> getAllProduct();
 
+	public Product getProduct(Integer id);
+
+	public Product updateStock(Integer id, Integer stock);
+
+	public Product updatePrice(Integer id, Double price);
+
 }

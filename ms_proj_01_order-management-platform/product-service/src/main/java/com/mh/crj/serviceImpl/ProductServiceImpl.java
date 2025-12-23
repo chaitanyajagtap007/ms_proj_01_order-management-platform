@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mh.crj.entity.Product;
 import com.mh.crj.entity.ProductStatus;
+import com.mh.crj.exception.OrderNotFoundException;
 import com.mh.crj.model.ProductRequestDto;
 import com.mh.crj.repository.ProductRepo;
 import com.mh.crj.service.ProductService;
@@ -31,11 +32,44 @@ public class ProductServiceImpl implements ProductService {
 		System.out.println(product);
 		return savedProduct;
 	}
+	
+	@Override
+	public Product getProduct(Integer id) {
+		Product product = productRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Product is not available with id "+id));
+		return product;
+	}
 
 	@Override
 	public List<Product> getAllProduct() {
 		List<Product> allProduct = productRepo.findAll();
 		return allProduct;
 	}
+	
+	@Override
+	public Product updateStock(Integer id, Integer stock) {
+		
+		Product product = productRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Product is not available with id "+id));
+		Integer stockCount = product.getStock();
+		if(stockCount==0) {
+			product.setStock(stock);
+		}else {
+			product.setStock(stockCount+stock);
+		}
+		
+		Product updateStock = productRepo.save(product);
+		return updateStock;
+	}
 	 
+	
+	@Override
+	public Product updatePrice(Integer id, Double price) {
+
+		Product product = productRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Product is not available with id "+id));
+		product.setPrice(price);
+		
+		Product updatePrice = productRepo.save(product);
+		
+		
+		return updatePrice;
+	}
 }
