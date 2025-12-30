@@ -12,6 +12,7 @@ import com.mh.crj.exception.DuplicateEmailException;
 import com.mh.crj.exception.InternalServerException;
 import com.mh.crj.exception.InvalidEmailPasswordException;
 import com.mh.crj.exception.UserNotFoundException;
+import com.mh.crj.model.UserDto;
 import com.mh.crj.model.UserLoginDto;
 import com.mh.crj.model.UserRegisterDto;
 import com.mh.crj.repository.UserRepo;
@@ -61,6 +62,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> fetchAllUser() {
 		List<User> all = userRepo.findAll();
+		
+		if(all.isEmpty()) {
+			throw new UserNotFoundException("Users is not available");
+		}
+		
 		return all;
 	}
 
@@ -85,12 +91,11 @@ public class UserServiceImpl implements UserService {
 		return byId;
 	}
 	
+	
 	@Override
 	public void deleteUser(Integer id) {
-		
 		User user = userRepo.findById(id).orElseThrow(()-> new UserNotFoundException("User is not abailable in DB with id :"+id));
 		userRepo.delete(user);
-
 	}
 	
 }

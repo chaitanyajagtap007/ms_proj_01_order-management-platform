@@ -37,13 +37,5 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
-    @PrePersist
-    public void initStatus() {
-        if (stock > 0) {
-            status = ProductStatus.ACTIVE;
-        } else {
-            status = ProductStatus.OUT_OF_STOCK;
-        }
-    }
 
 }

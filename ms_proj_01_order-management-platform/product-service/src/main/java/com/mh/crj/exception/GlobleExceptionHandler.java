@@ -50,14 +50,14 @@ public class GlobleExceptionHandler {
 		return ResponseEntity.ok(errorResponseMessage);
 	}
 	
-	@ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<Object> handleDuplicateKey(OrderNotFoundException ex) {
+	@ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Object> handleDuplicateKey(ProductNotFoundException ex) {
 		HashMap<String, String> hm = new HashMap<>();
-		hm.put("Error Details", "User not exists! or incorrect email");
+		hm.put("Error Details", "Product not exists.");
 		hm.put("Error Messae", ex.getLocalizedMessage());
 		hm.put("TimeStamp",System.currentTimeMillis()+"");
 		
-		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Order is not available in DB",hm);
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Product is not available in DB",hm);
 		
 		return ResponseEntity.ok(errorResponseMessage);
 	}

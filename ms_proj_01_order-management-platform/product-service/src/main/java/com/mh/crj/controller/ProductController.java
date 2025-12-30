@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mh.crj.entity.Product;
+import com.mh.crj.model.ProductDto;
 import com.mh.crj.model.ProductRequestDto;
 import com.mh.crj.model.ResponseMessage;
 import com.mh.crj.service.ProductService;
@@ -34,11 +35,23 @@ public class ProductController {
     	return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"Product created successfully",product));
 	}
     
-    @GetMapping("/get/{id}")
-	public ResponseEntity<ResponseMessage>  getOneProduct(@PathVariable Integer id) {
+    @GetMapping("/getById/{id}")
+	public ResponseEntity<ResponseMessage>  getProduct(@PathVariable Integer id) {
     	Product product = productService.getProduct(id);
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"Product get successfully",product));
 	}
+    
+    @GetMapping("/getProduct/{id}")
+	public ProductDto  getProductForfeignClient(@PathVariable Integer id) {
+    	Product product = productService.getProduct(id);
+    	ProductDto dto = new ProductDto();
+    	dto.setId(product.getId());
+    	dto.setName(product.getName());
+    	dto.setPrice(product.getPrice());
+    	dto.setStock(product.getStock());
+    	
+    	return dto;
+    }
 	
 	
     @GetMapping("/get-all")

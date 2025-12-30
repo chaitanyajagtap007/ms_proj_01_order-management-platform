@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mh.crj.entity.Product;
 import com.mh.crj.entity.ProductStatus;
-import com.mh.crj.exception.OrderNotFoundException;
+import com.mh.crj.exception.ProductNotFoundException;
 import com.mh.crj.model.ProductRequestDto;
 import com.mh.crj.repository.ProductRepo;
 import com.mh.crj.service.ProductService;
@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public Product getProduct(Integer id) {
-		Product product = productRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Product is not available with id "+id));
+		Product product = productRepo.findById(id).orElseThrow(()-> new ProductNotFoundException("Product is not available with id "+id));
 		return product;
 	}
 
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product updateStock(Integer id, Integer newStock) {
 		
-		Product product = productRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Product is not available with id "+id));
+		Product product = productRepo.findById(id).orElseThrow(()-> new ProductNotFoundException("Product is not available with id "+id));
 		product.setStatus(newStock > 0 ? ProductStatus.ACTIVE : ProductStatus.OUT_OF_STOCK);
 		
 		product.setStock(newStock);		
@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product updatePrice(Integer id, Double price) {
 
-		Product product = productRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Product is not available with id "+id));
+		Product product = productRepo.findById(id).orElseThrow(()-> new ProductNotFoundException("Product is not available with id "+id));
 		product.setPrice(price);
 		
 		Product updatePrice = productRepo.save(product);

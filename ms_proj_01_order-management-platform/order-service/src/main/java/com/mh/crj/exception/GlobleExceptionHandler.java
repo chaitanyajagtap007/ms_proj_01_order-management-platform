@@ -50,6 +50,18 @@ public class GlobleExceptionHandler {
 		return ResponseEntity.ok(errorResponseMessage);
 	}
 	
+	@ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Object> handleDuplicateKey(ProductNotFoundException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "Product not exists!");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Product is not available in DB",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
 	@ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleDuplicateKey(OrderNotFoundException ex) {
 		HashMap<String, String> hm = new HashMap<>();
@@ -73,6 +85,21 @@ public class GlobleExceptionHandler {
 		
 		return ResponseEntity.ok(errorResponseMessage);
 	}
+	
+	
+	@ExceptionHandler(InsufficientStockException.class)
+	public ResponseEntity<Object> handleDuplicateKey(InsufficientStockException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "Stock is not availablefor this product");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Password is wrong",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	
 	
 	
 }

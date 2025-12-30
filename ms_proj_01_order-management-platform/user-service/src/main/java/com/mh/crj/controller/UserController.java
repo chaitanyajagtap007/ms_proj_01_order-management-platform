@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mh.crj.entity.User;
 import com.mh.crj.model.ResponseMessage;
+import com.mh.crj.model.UserDto;
 import com.mh.crj.model.UserLoginDto;
 import com.mh.crj.model.UserRegisterDto;
 import com.mh.crj.service.UserService;
@@ -70,6 +72,19 @@ public class UserController {
 		User userById = userService.getUserById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"User login successfully",userById));
 	}
+	
+	@GetMapping("/getUser/{id}")
+	public UserDto getUser(@PathVariable Integer id) {
+		 User user= userService.getUserById(id);
+		 UserDto dto = new UserDto();
+		 dto.setId(user.getId());
+	     dto.setFirstName(user.getFirstName());
+	     dto.setLastName(user.getLastName());
+	     dto.setEmail(user.getEmail());
+	     dto.setMobile(user.getMobile());
+	 return dto;
+	}
+	
 	
 
 	@GetMapping("/getAll")

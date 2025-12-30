@@ -9,5 +9,4 @@ public class OrderRequestDto {
 	private Integer productId;
     private Integer quantity;
     private Double totalAmount;
-
 }
