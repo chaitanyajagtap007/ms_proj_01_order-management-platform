@@ -1,0 +1,105 @@
+package com.mh.crj.exception;
+
+import java.net.HttpURLConnection;
+import java.util.HashMap;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.mh.crj.model.ErrorResponseMessage;
+import com.mh.crj.utility.Constants;
+
+@RestControllerAdvice
+public class GlobleExceptionHandler {
+
+	
+	@ExceptionHandler(InternalServerException.class)
+	public ResponseEntity<Object> handleInternalServerException(InternalServerException ex){
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "Internal Server Error");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Internal server Error",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	@ExceptionHandler(DuplicateOrderException.class)
+    public ResponseEntity<Object> handleDuplicateKey(DuplicateOrderException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "Order already exists!");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Order is already present in DB",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	@ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleDuplicateKey(UserNotFoundException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "User not exists! or incorrect email");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"User is not available in DB",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	@ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Object> handleDuplicateKey(ProductNotFoundException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "Product not exists!");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Product is not available in DB",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	@ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<Object> handleDuplicateKey(OrderNotFoundException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "User not exists! or incorrect email");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Order is not available in DB",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	@ExceptionHandler(InvalidEmailPasswordException.class)
+	public ResponseEntity<Object> handleDuplicateKey(InvalidEmailPasswordException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "Incorrect password");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Password is wrong",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	
+	@ExceptionHandler(InsufficientStockException.class)
+	public ResponseEntity<Object> handleDuplicateKey(InsufficientStockException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "Stock is not availablefor this product");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Password is wrong",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	
+	
+	
+}

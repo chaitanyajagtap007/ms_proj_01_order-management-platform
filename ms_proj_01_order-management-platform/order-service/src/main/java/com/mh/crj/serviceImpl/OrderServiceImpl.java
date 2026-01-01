@@ -102,9 +102,9 @@ public class OrderServiceImpl implements OrderService{
 		System.err.println("Order is created...! ");
 		
 		// reduce stock
-		productServiceClient.updateStock(product.getId(), (product.getStock()-orderRequestDto.getQuantity()));
-		
-		System.err.println("stock reduce operation is completed..!");
+//		productServiceClient.updateStock(product.getId(), (product.getStock()-orderRequestDto.getQuantity()));
+//		
+//		System.err.println("stock reduce operation is completed..!");
 		
 		return createdOrder;
 	}
@@ -143,10 +143,10 @@ public class OrderServiceImpl implements OrderService{
 		order.setStatus(OrderStatus.CANCELLED);
 	    orderRepo.save(order);
 	    
-	    ProductDto product = productServiceClient.getProduct(order.getProductId());
 	    
-	 // Restore stock
-	    productServiceClient.updateStock(order.getProductId(), (product.getStock() + order.getQuantity()));
+//	  	//	Restore stock
+//	    ProductDto product = productServiceClient.getProduct(order.getProductId());
+//	    productServiceClient.updateStock(order.getProductId(), (product.getStock() + order.getQuantity()));
 	    return "Order cancelled for user " + order.getUserId()
 	            + " and order id " + order.getId();
 	}
