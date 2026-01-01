@@ -26,14 +26,14 @@ public class GlobleExceptionHandler {
 		return ResponseEntity.ok(errorResponseMessage);
 	}
 	
-	@ExceptionHandler(DuplicateOrderException.class)
-    public ResponseEntity<Object> handleDuplicateKey(DuplicateOrderException ex) {
+	@ExceptionHandler(DuplicateProductException.class)
+    public ResponseEntity<Object> handleDuplicateKey(DuplicateProductException ex) {
 		HashMap<String, String> hm = new HashMap<>();
-		hm.put("Error Details", "Order already exists!");
+		hm.put("Error Details", "Product already exists!");
 		hm.put("Error Messae", ex.getLocalizedMessage());
 		hm.put("TimeStamp",System.currentTimeMillis()+"");
 		
-		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Order is already present in DB",hm);
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Product is already present in DB",hm);
 		
 		return ResponseEntity.ok(errorResponseMessage);
 	}

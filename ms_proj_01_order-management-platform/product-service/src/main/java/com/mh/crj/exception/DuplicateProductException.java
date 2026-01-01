@@ -1,13 +1,13 @@
 package com.mh.crj.exception;
 
 
-public class DuplicateOrderException extends RuntimeException {
+public class DuplicateProductException extends RuntimeException {
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public DuplicateOrderException(String message) {
+	public DuplicateProductException(String message) {
         super(message);
     }
 }

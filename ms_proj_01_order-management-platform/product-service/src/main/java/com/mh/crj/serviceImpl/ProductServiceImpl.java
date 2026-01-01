@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mh.crj.entity.Product;
 import com.mh.crj.entity.ProductStatus;
+import com.mh.crj.exception.DuplicateProductException;
 import com.mh.crj.exception.ProductNotFoundException;
 import com.mh.crj.model.ProductRequestDto;
 import com.mh.crj.repository.ProductRepo;
@@ -20,7 +21,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public Product createProduct(ProductRequestDto productRequestDto) {
-		System.out.println(productRequestDto);
+
+		productRepo.findByName(productRequestDto.getName()) .ifPresent(p -> { throw new DuplicateProductException("Product already exists with name: " + productRequestDto.getName()); });
+		
 		Product product = Product.builder()
 				.name(productRequestDto.getName())
                 .price(productRequestDto.getPrice())
@@ -29,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
                 .build();
 		
 		Product savedProduct = productRepo.save(product);
-		System.out.println(product);
 		return savedProduct;
 	}
 	
@@ -42,6 +44,9 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getAllProduct() {
 		List<Product> allProduct = productRepo.findAll();
+		if(allProduct.size()==0) {
+			throw new ProductNotFoundException("Products is not availables..");
+		}
 		return allProduct;
 	}
 	

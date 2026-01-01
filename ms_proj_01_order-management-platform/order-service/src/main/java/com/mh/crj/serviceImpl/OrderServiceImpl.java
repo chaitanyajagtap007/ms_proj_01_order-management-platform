@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public Orders createOrder(OrderRequestDto orderRequestDto) {
 		
+		System.err.println("In create order method with dto"+orderRequestDto);
 		
 		// 1️ Validate user exists
 		UserDto user;
@@ -51,12 +52,15 @@ public class OrderServiceImpl implements OrderService{
 	        throw new UserNotFoundException("User not exists with id: " + orderRequestDto.getUserId());
 	    }
 		
+		
+		System.err.println("User validation is completed user is present user: "+user);
+		
 		// 2 Validate product exists
 		ProductDto product;
 		try {
 			product = productServiceClient.getProduct(orderRequestDto.getProductId());
 			if(product.getId()==null) {
-				throw new ProductNotFoundException("product is not exists with id: " + orderRequestDto.getUserId());
+				throw new ProductNotFoundException("product is not exists with id: " + orderRequestDto.getProductId());
 			}
 		}catch (Exception e) {
 	        throw new ProductNotFoundException("Product not exists with id: is " + orderRequestDto.getProductId());
@@ -67,7 +71,10 @@ public class OrderServiceImpl implements OrderService{
 			throw new InsufficientStockException("Insufficient stock for product: " + product.getId());
 	    }
 
-	    // 4️ Prevent duplicate active order
+
+		System.err.println("Product validation is completed product is present user: "+product);
+		
+		// 4️ Prevent duplicate active order
 		Optional<Orders> checkOrders = orderRepo.findByUserIdAndProductIdAndStatus(orderRequestDto.getUserId(), orderRequestDto.getProductId(),OrderStatus.CREATED);
 		
 		if(checkOrders.isPresent()) {
@@ -75,16 +82,30 @@ public class OrderServiceImpl implements OrderService{
 	                " and product: " + orderRequestDto.getProductId());
 		}
 		
+		System.err.println("Stock valadition is also completed stock is available "+product.getStock());
+
+		Double totalAmt = (orderRequestDto.getQuantity() * product.getPrice());
+		System.err.println("the quentity is "+orderRequestDto.getQuantity()+" and the price is "+product.getPrice()+" and the total price is :"+totalAmt);
 		// 5 Create order
 		Orders order = Orders.builder()
 				.userId(orderRequestDto.getUserId())
                 .productId(orderRequestDto.getProductId())
                 .quantity(orderRequestDto.getQuantity())
-                .totalAmount(orderRequestDto.getTotalAmount())
+                .totalAmount(totalAmt)
                 .status(OrderStatus.CREATED)
                 .build();
 		
+		System.err.println("creare Order object for save this object into db.."+order);
+		
 		Orders createdOrder = orderRepo.save(order);
+		
+		System.err.println("Order is created...! ");
+		
+		// reduce stock
+		productServiceClient.updateStock(product.getId(), (product.getStock()-orderRequestDto.getQuantity()));
+		
+		System.err.println("stock reduce operation is completed..!");
+		
 		return createdOrder;
 	}
 	
@@ -99,6 +120,9 @@ public class OrderServiceImpl implements OrderService{
 	public List<Orders> getAllOrders() {
 	
 		List<Orders> allOrders = orderRepo.findAll();
+		if(allOrders.size()==0) {
+			throw new OrderNotFoundException("orders is not availables..!");
+		}
 		return allOrders;
 	}
 	
@@ -118,6 +142,11 @@ public class OrderServiceImpl implements OrderService{
 		Orders order = orderRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Ordes is not available with id "+id));
 		order.setStatus(OrderStatus.CANCELLED);
 	    orderRepo.save(order);
+	    
+	    ProductDto product = productServiceClient.getProduct(order.getProductId());
+	    
+	 // Restore stock
+	    productServiceClient.updateStock(order.getProductId(), (product.getStock() + order.getQuantity()));
 	    return "Order cancelled for user " + order.getUserId()
 	            + " and order id " + order.getId();
 	}

@@ -61,11 +61,25 @@ public class ProductController {
 	}
     
     
-    @PutMapping("/updateStock/{id}")
+    @PutMapping("/update-product-Stock/{id}")
     public ResponseEntity<ResponseMessage> updateStock(@PathVariable Integer id,@RequestParam Integer stock) {
     	Product updatedStockProduct = productService.updateStock(id,stock);
     	return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"All Product get successfully",updatedStockProduct));
     }
+    
+    
+    @PutMapping("/updateStock/{id}")
+    public ProductDto updateStockForfeignClient(@PathVariable Integer id,@RequestParam Integer stock) {
+    	Product updatedStockProduct = productService.updateStock(id,stock);
+    	ProductDto dto = new ProductDto();
+    	dto.setId(updatedStockProduct.getId());
+    	dto.setName(updatedStockProduct.getName());
+    	dto.setPrice(updatedStockProduct.getPrice());
+    	dto.setStock(updatedStockProduct.getStock());
+    	
+    	return dto;
+    }
+    
     
     @PutMapping("/updatePrice/{id}")
     public ResponseEntity<ResponseMessage> updatePrice(@PathVariable Integer id,@RequestParam Double price) {
