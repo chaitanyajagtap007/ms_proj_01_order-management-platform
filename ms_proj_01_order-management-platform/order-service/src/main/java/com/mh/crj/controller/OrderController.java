@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mh.crj.entity.OrderStatus;
 import com.mh.crj.entity.Orders;
+import com.mh.crj.model.OrderDto;
 import com.mh.crj.model.OrderRequestDto;
 import com.mh.crj.model.ResponseMessage;
 import com.mh.crj.service.OrderService;
@@ -46,6 +47,21 @@ public class OrderController {
 	public ResponseEntity<ResponseMessage>  getOrder(@PathVariable Integer id) {
 		Orders order = orderService.getOrder(id);
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"Order get successfully",order));
+	}
+	
+	@GetMapping("/getOrder/{id}")
+	public OrderDto getOrderForFeignClient(@PathVariable Integer id) {
+		Orders order = orderService.getOrder(id);
+		
+		OrderDto dto = new OrderDto();
+		
+		dto.setOrderId(order.getId());
+		dto.setUserId(order.getUserId());
+		dto.setProductId(order.getProductId());
+		dto.setTotalAmount(order.getTotalAmount());
+		dto.setStatus(order.getStatus());
+		
+		return dto;
 	}
 	
 	@GetMapping("/get-all")
