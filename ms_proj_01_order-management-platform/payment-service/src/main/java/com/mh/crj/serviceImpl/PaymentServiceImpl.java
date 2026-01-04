@@ -44,4 +44,6 @@ public class PaymentServiceImpl implements PaymentService {
 		
 	}
 	
+	// add new methods
+	
 }
