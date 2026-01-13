@@ -45,5 +45,5 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	// add new methods
-	
+	// if payment is done then change the payment status
 }
