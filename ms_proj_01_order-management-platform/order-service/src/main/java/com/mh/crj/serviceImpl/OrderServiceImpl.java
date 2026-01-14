@@ -128,6 +128,25 @@ public class OrderServiceImpl implements OrderService{
 	
 	
 	@Override
+	public Orders confirmOrder(Integer id) {
+		Orders order = orderRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Ordes is not available with id "+id));
+		
+
+		// 2 Validate product exists
+		ProductDto product = productServiceClient.getProduct(order.getProductId());
+			
+		// reduce stock
+		productServiceClient.updateStock(product.getId(), (product.getStock()-order.getQuantity()));
+		
+		System.err.println("stock reduce operation is completed..!");
+
+		order.setStatus(OrderStatus.CONFIRMED);
+		
+		Orders confirmOrder = orderRepo.save(order);
+		return confirmOrder;
+	}
+	
+	@Override
 	public Orders updateStatus(Integer id, OrderStatus status) {
 		Orders byId = orderRepo.findById(id).orElseThrow(()-> new OrderNotFoundException("Ordes is not available with id "+id));
 		byId.setStatus(status);
@@ -144,9 +163,9 @@ public class OrderServiceImpl implements OrderService{
 	    orderRepo.save(order);
 	    
 	    
-//	  	//	Restore stock
-//	    ProductDto product = productServiceClient.getProduct(order.getProductId());
-//	    productServiceClient.updateStock(order.getProductId(), (product.getStock() + order.getQuantity()));
+	  	//	Restore stock
+	    ProductDto product = productServiceClient.getProduct(order.getProductId());
+	    productServiceClient.updateStock(order.getProductId(), (product.getStock() + order.getQuantity()));
 	    return "Order cancelled for user " + order.getUserId()
 	            + " and order id " + order.getId();
 	}

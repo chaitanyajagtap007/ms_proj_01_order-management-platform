@@ -38,10 +38,35 @@ public class GlobleExceptionHandler {
 		return ResponseEntity.ok(errorResponseMessage);
 	}
 	
+	@ExceptionHandler(DuplicatePaymentException.class)
+	public ResponseEntity<Object> handleDuplicateKey(DuplicatePaymentException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "payment already exists!");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"Order is already present in DB",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	
 	@ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleDuplicateKey(UserNotFoundException ex) {
 		HashMap<String, String> hm = new HashMap<>();
 		hm.put("Error Details", "User not exists! or incorrect email");
+		hm.put("Error Messae", ex.getLocalizedMessage());
+		hm.put("TimeStamp",System.currentTimeMillis()+"");
+		
+		ErrorResponseMessage errorResponseMessage = new ErrorResponseMessage(HttpURLConnection.HTTP_BAD_REQUEST, Constants.FAILURE,"User is not available in DB",hm);
+		
+		return ResponseEntity.ok(errorResponseMessage);
+	}
+	
+	@ExceptionHandler(PaymentNotFoundException.class)
+	public ResponseEntity<Object> handleDuplicateKey(PaymentNotFoundException ex) {
+		HashMap<String, String> hm = new HashMap<>();
+		hm.put("Error Details", "Payment not exists!");
 		hm.put("Error Messae", ex.getLocalizedMessage());
 		hm.put("TimeStamp",System.currentTimeMillis()+"");
 		

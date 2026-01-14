@@ -70,13 +70,21 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,"All Order get successfully",allOrders));
 	}
 	
+	@PutMapping("/{orderId}/confirm")
+    public ResponseEntity<ResponseMessage> confirmOrder(
+            @PathVariable Integer orderId) {
+		Orders confirmOrder = orderService.confirmOrder(orderId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"Order Confirm successfully",confirmOrder));		
+	}
+	
+	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<ResponseMessage> updateOrder(@PathVariable Integer id, @RequestParam OrderStatus status) {
 		Orders updateOrder = orderService.updateStatus(id, status);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(HttpURLConnection.HTTP_CREATED,Constants.SUCCESS,"Order created successfully",updateOrder));
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}/cancle")
 	public ResponseEntity<ResponseMessage>  cancleOrder(@PathVariable Integer id) {
 		String msg = orderService.cancleOrder(id);
 		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(HttpURLConnection.HTTP_OK,Constants.SUCCESS,msg));

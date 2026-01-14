@@ -11,6 +11,7 @@ public interface OrderService {
 	public Orders createOrder(OrderRequestDto orderRequestDto);
 	public Orders getOrder(Integer id);
 	public List<Orders> getAllOrders();
+	public Orders confirmOrder(Integer id);
 	public Orders updateStatus(Integer id,OrderStatus status);
 	public String cancleOrder(Integer id);
 	

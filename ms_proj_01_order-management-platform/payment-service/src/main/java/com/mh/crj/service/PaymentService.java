@@ -8,4 +8,9 @@ public interface PaymentService {
 
 	public Payment initiatePayment(Integer orderId ,Integer productId,PaymentMethod paymentMethod);
 	
+
+	public Payment markPaymentSuccess(Integer paymentId);
+
+	public Payment markPaymentFailed(Integer paymentId);
+	
 }
