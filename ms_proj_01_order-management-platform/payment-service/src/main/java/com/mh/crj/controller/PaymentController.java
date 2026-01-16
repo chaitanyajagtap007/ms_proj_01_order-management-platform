@@ -36,7 +36,7 @@ public class PaymentController {
 	@GetMapping("/msg")
 	public String getMethodName() {
 		return "this is payment service";
-	}
+	} 
 	
 	
 	@PostMapping("/initiate")
