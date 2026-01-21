@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,13 +33,16 @@ public class Orders {
 	
 	@Column(nullable = false)
 	private Integer productId;
-	
+
+	@Min(0)
 	@Column(nullable = false)
     private Integer quantity;
 
-	@Column(nullable = false)
+	@Column(nullable = false,updatable = false)
     private Double totalAmount;
 
+
+	@Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 	
