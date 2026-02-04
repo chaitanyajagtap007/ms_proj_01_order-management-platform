@@ -29,4 +29,3 @@ spring:
           uri: lb://PAYMENT-SERVICE
           predicates:
             - Path=/**
-
