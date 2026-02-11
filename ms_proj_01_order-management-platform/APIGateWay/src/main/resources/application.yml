@@ -9,9 +9,24 @@ spring:
     gateway:
       routes:
         - id: user-service
-          uri: lb://user-service
+          uri: lb://user-service    # spring.application.name in service
           predicates:
-            - Path=/user/**         #http://localhost:8080/user/getAll
+            - Path=/user/**           # http://localhost:8080/user/getAll
+
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+          - Path=/product/**          # http://localhost:8080/product/get-all
+
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+          - Path=/order/**             # http://localhost:8080/order/get-all
+
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+          - Path=/payment/**           # http://localhost:8080/payment/msg
 
 eureka:
   client:
