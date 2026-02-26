@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mh.crj.model.ProductDto;
 
-@FeignClient(name ="product-service", url = "http://localhost:9091/product")
+@FeignClient(name ="product-service")
 public interface ProductServiceClient {
 	
-	@GetMapping("/getProduct/{id}")
+	@GetMapping("/product/getProduct/{id}")
 	public ProductDto  getProduct(@PathVariable Integer id);
 	
 
-    @PutMapping("/updateStock/{id}")
+    @PutMapping("/product/updateStock/{id}")
     public ProductDto updateStock(@PathVariable Integer id,@RequestParam Integer stock);
 	
 }

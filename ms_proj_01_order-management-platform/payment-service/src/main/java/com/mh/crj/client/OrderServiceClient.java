@@ -13,17 +13,17 @@ import com.mh.crj.model.OrderDto;
 import com.mh.crj.model.ResponseMessage;
 
 
-@FeignClient(name ="order-service", url = "http://localhost:9092/order")
+@FeignClient(name ="order-service")
 public interface OrderServiceClient {
 
 
-	@GetMapping("/getOrder/{id}")
+	@GetMapping("/order/getOrder/{id}")
 	public Optional<OrderDto>  getOrderForFeignClient(@PathVariable Integer id);
 	
-	@PutMapping("/{orderId}/confirm")
+	@PutMapping("/order/{orderId}/confirm")
 	public  ResponseEntity<ResponseMessage>  confirmOrder(@PathVariable Integer orderId);
 	
-	@DeleteMapping("/{id}/cancle")
+	@DeleteMapping("/order/{id}/cancle")
 	public  ResponseEntity<ResponseMessage> cancleOrder(@PathVariable Integer id);
 
 }

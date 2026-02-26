@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.mh.crj.model.UserDto;
 
 
-@FeignClient(name ="user-service", url = "http://localhost:9090/user")
+@FeignClient(name ="user-service")
 public interface UserServiceClient {
 	
-	@GetMapping("/getUser/{id}")
+	@GetMapping("/user/getUser/{id}")
 	public UserDto getUser(@PathVariable Integer id);
 
 }
